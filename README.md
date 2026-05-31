@@ -32,3 +32,10 @@ Scan a restaurant receipt or enter items manually, fix any OCR errors, mark item
 ## Tech Stack
 
 TypeScript · Cloudflare Workers · Cloudflare D1 · Cloudflare Pages · Telegram Bot API · OCR.space
+
+## Promotional Images
+
+![Screenshot 1](assets/1.png)
+![Screenshot 1](assets/2.png)
+![Screenshot 1](assets/3.png)
+![Screenshot 1](assets/4.png)
