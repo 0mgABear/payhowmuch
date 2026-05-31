@@ -65,18 +65,16 @@
 				min-height: 100dvh;
 				display: flex;
 				flex-direction: column;
-				max-width: 520px;
+				max-width: 680px;
 				margin: 0 auto;
 				padding: 0 0 max(env(safe-area-inset-bottom), 24px);
 			}
-			@media (min-width: 520px) {
+			@media (min-width: 680px) {
 				body {
 					border-left: 1px solid var(--border);
 					border-right: 1px solid var(--border);
 				}
 			}
-
-			/* Header */
 			header {
 				padding: 20px 20px 0;
 				display: flex;
@@ -94,8 +92,6 @@
 			.logo span {
 				color: var(--accent);
 			}
-
-			/* Main */
 			main {
 				flex: 1;
 				padding: 24px 20px;
@@ -103,8 +99,6 @@
 				flex-direction: column;
 				gap: 20px;
 			}
-
-			/* Steps */
 			.step {
 				display: none;
 				flex-direction: column;
@@ -124,8 +118,6 @@
 					transform: translateY(0);
 				}
 			}
-
-			/* Step header */
 			.step-label {
 				font-family: var(--mono);
 				font-size: 11px;
@@ -144,8 +136,6 @@
 				color: var(--muted);
 				line-height: 1.5;
 			}
-
-			/* Input */
 			.input-group {
 				display: flex;
 				flex-direction: column;
@@ -179,8 +169,6 @@
 				resize: none;
 				min-height: 120px;
 			}
-
-			/* Upload area */
 			.upload-area {
 				border: 1.5px dashed var(--border);
 				border-radius: var(--radius);
@@ -245,8 +233,6 @@
 				align-items: center;
 				justify-content: center;
 			}
-
-			/* Tabs */
 			.tabs {
 				display: flex;
 				background: var(--surface);
@@ -271,8 +257,6 @@
 				background: var(--surface2);
 				color: var(--text);
 			}
-
-			/* Tab panes */
 			.tab-pane {
 				display: none;
 			}
@@ -281,8 +265,6 @@
 				flex-direction: column;
 				gap: 12px;
 			}
-
-			/* Manual item row */
 			.manual-item-row {
 				display: grid;
 				grid-template-columns: 1fr auto;
@@ -296,8 +278,6 @@
 				text-align: right;
 				font-family: var(--mono);
 			}
-
-			/* Buttons */
 			.btn {
 				border: none;
 				border-radius: var(--radius);
@@ -337,6 +317,7 @@
 				font-size: 13px;
 				width: auto;
 				border-radius: 8px;
+				min-height: 0;
 			}
 			.btn-danger {
 				background: var(--red-dim);
@@ -352,9 +333,30 @@
 				height: 36px;
 				border-radius: 8px;
 				flex-shrink: 0;
+				min-height: 0;
 			}
-
-			/* Processing state */
+			.btn-icon-remove {
+				background: var(--red-dim);
+				border: 1px solid var(--red);
+				color: var(--red);
+				padding: 9px;
+				width: 36px;
+				height: 36px;
+				border-radius: 8px;
+				flex-shrink: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 14px;
+				cursor: pointer;
+				min-height: 0;
+				-webkit-tap-highlight-color: transparent;
+				touch-action: manipulation;
+				transition: all 0.15s;
+			}
+			.btn-icon-remove:active {
+				opacity: 0.75;
+			}
 			.processing {
 				display: flex;
 				flex-direction: column;
@@ -381,8 +383,6 @@
 				color: var(--muted);
 				letter-spacing: 0.05em;
 			}
-
-			/* Items list */
 			.items-list {
 				display: flex;
 				flex-direction: column;
@@ -403,28 +403,6 @@
 			.item-row.selected {
 				border-color: var(--accent);
 				background: var(--accent-dim);
-			}
-			.item-row.removed {
-				opacity: 0.4;
-				text-decoration: line-through;
-				pointer-events: none;
-			}
-			.item-check {
-				width: 20px;
-				height: 20px;
-				border-radius: 50%;
-				border: 1.5px solid var(--border);
-				flex-shrink: 0;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 11px;
-				transition: all 0.15s;
-			}
-			.item-row.selected .item-check {
-				background: var(--accent);
-				border-color: var(--accent);
-				color: #0e0e0f;
 			}
 			.item-info {
 				flex: 1;
@@ -447,8 +425,6 @@
 				display: flex;
 				gap: 6px;
 			}
-
-			/* Edit inline */
 			.item-edit-panel {
 				background: var(--surface2);
 				border: 1px solid var(--border);
@@ -482,15 +458,27 @@
 				font-size: 15px;
 				padding: 10px 12px;
 			}
-
-			/* GST/SC row */
 			.charges-row {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
 				gap: 8px;
 			}
-
-			/* Result */
+			.charges-notice {
+				background: rgba(232, 255, 107, 0.1);
+				border: 1px solid rgba(232, 255, 107, 0.3);
+				border-radius: var(--radius);
+				padding: 10px 14px;
+				font-size: 13px;
+				color: var(--accent);
+				font-weight: 500;
+			}
+			@media (prefers-color-scheme: light) {
+				.charges-notice {
+					background: rgba(0, 0, 0, 0.05);
+					border-color: rgba(0, 0, 0, 0.15);
+					color: var(--text);
+				}
+			}
 			.result-card {
 				background: var(--surface);
 				border: 1px solid var(--border);
@@ -554,24 +542,6 @@
 			.result-item-price {
 				font-family: var(--mono);
 			}
-
-			/* Divider */
-			.divider {
-				display: flex;
-				align-items: center;
-				gap: 12px;
-				color: var(--muted);
-				font-size: 12px;
-			}
-			.divider::before,
-			.divider::after {
-				content: '';
-				flex: 1;
-				height: 1px;
-				background: var(--border);
-			}
-
-			/* Pax badge */
 			.pax-input-row {
 				display: flex;
 				gap: 8px;
@@ -606,8 +576,6 @@
 				max-width: 80px;
 				font-family: var(--mono);
 			}
-
-			/* Uneven split select */
 			.uneven-item {
 				background: var(--surface);
 				border: 1px solid var(--border);
@@ -618,18 +586,10 @@
 				justify-content: space-between;
 				gap: 10px;
 			}
-			.uneven-item-name {
-				font-size: 14px;
-				flex: 1;
-			}
-			.uneven-item-price {
-				font-family: var(--mono);
-				font-size: 13px;
-				color: var(--muted);
-			}
 			.uneven-pax-select {
 				display: flex;
 				gap: 4px;
+				flex-wrap: wrap;
 			}
 			.pax-dot {
 				width: 28px;
@@ -652,8 +612,6 @@
 				background: var(--accent-dim);
 				color: var(--accent);
 			}
-
-			/* Toast */
 			.toast {
 				position: fixed;
 				bottom: 24px;
@@ -669,12 +627,30 @@
 				pointer-events: none;
 				z-index: 100;
 				white-space: nowrap;
+				display: flex;
+				align-items: center;
+				gap: 12px;
 			}
 			.toast.show {
 				transform: translateX(-50%) translateY(0);
+				pointer-events: auto;
 			}
-
-			/* Progress dots */
+			.toast-undo {
+				background: none;
+				border: none;
+				color: var(--accent);
+				font-family: var(--sans);
+				font-size: 13px;
+				font-weight: 700;
+				cursor: pointer;
+				padding: 0;
+				text-decoration: underline;
+			}
+			@media (prefers-color-scheme: light) {
+				.toast-undo {
+					color: var(--red);
+				}
+			}
 			.progress {
 				display: flex;
 				gap: 5px;
@@ -696,8 +672,6 @@
 			.progress-dot.done {
 				background: var(--muted);
 			}
-
-			/* Back nav */
 			.nav-back {
 				display: flex;
 				align-items: center;
@@ -714,8 +688,6 @@
 			.nav-back:hover {
 				color: var(--text);
 			}
-
-			/* Error */
 			.error-msg {
 				background: var(--red-dim);
 				border: 1px solid var(--red);
@@ -775,8 +747,6 @@
 					<button class="tab active" onclick="switchTab('photo')">📷 Scan receipt</button>
 					<button class="tab" onclick="switchTab('manual')">✏️ Manual entry</button>
 				</div>
-
-				<!-- Photo tab -->
 				<div class="tab-pane active" id="tab-photo">
 					<div class="upload-area" id="upload-area">
 						<input type="file" accept="image/*" id="file-input" onchange="handleFile(event)" />
@@ -791,8 +761,6 @@
 					<div class="error-msg" id="ocr-error"></div>
 					<button class="btn btn-primary" id="btn-scan" style="display: none" onclick="scanReceipt()">Scan receipt →</button>
 				</div>
-
-				<!-- Manual tab -->
 				<div class="tab-pane" id="tab-manual">
 					<div class="items-list" id="manual-items-list"></div>
 					<button class="btn btn-secondary" onclick="addManualItem()">+ Add item</button>
@@ -813,10 +781,11 @@
 				<div>
 					<button class="nav-back" onclick="goStep(1)">← Back</button>
 					<h1 style="margin-top: 12px">Review items</h1>
-					<p class="sub" style="margin-top: 4px">Tap to edit price or qty. Swipe to remove.</p>
+					<p class="sub" style="margin-top: 4px">Tap to edit. Tap ✕ to remove.</p>
 				</div>
 				<div class="items-list" id="review-items-list"></div>
 				<button class="btn btn-secondary btn-sm" style="width: auto; align-self: flex-start" onclick="addReviewItem()">+ Add item</button>
+				<div class="charges-notice">⚠️ Double-check the service charge and GST match your receipt.</div>
 				<div class="charges-row">
 					<div class="input-group">
 						<label>Service Charge %</label>
@@ -852,36 +821,31 @@
 			</div>
 		</main>
 
-		<div class="toast" id="toast"></div>
+		<div class="toast" id="toast">
+			<span id="toast-msg"></span>
+			<button class="toast-undo" id="toast-undo-btn" onclick="undoRemove()" style="display: none">Undo</button>
+		</div>
 
 		<script>
-			// ─── State ────────────────────────────────────────────────────────────────────
-			let state = {
-				groupSize: 0,
-				items: [], // { name, price, unitPrice, qty, pax }
-				gst: 9,
-				sc: 10,
-				selectedFile: null,
-			};
+			let state = { groupSize: 0, items: [], gst: 9, sc: 10, selectedFile: null };
+			let manualItems = [];
+			let lastRemoved = null;
+			let undoTimer = null;
 
-			// ─── Step navigation ──────────────────────────────────────────────────────────
 			function goStep(n) {
 				document.querySelectorAll('.step').forEach((s) => s.classList.remove('active'));
 				document.getElementById('step-' + n).classList.add('active');
-
 				const dots = document.querySelectorAll('.progress-dot');
 				dots.forEach((d, i) => {
 					d.classList.remove('active', 'done');
 					if (i < n) d.classList.add('done');
 					if (i === n) d.classList.add('active');
 				});
-
 				if (n === 3) renderReviewItems();
 				if (n === 4) renderUnevenItems();
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			}
 
-			// ─── Step 0: Pax ─────────────────────────────────────────────────────────────
 			function selectPax(n) {
 				state.groupSize = n;
 				document.querySelectorAll('.pax-btn').forEach((b) => b.classList.remove('active'));
@@ -909,7 +873,6 @@
 				}
 			});
 
-			// ─── Step 1: Tabs ─────────────────────────────────────────────────────────────
 			function switchTab(tab) {
 				document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
 				document.querySelectorAll('.tab-pane').forEach((p) => p.classList.remove('active'));
@@ -917,7 +880,6 @@
 				document.getElementById('tab-' + tab).classList.add('active');
 			}
 
-			// ─── File upload ──────────────────────────────────────────────────────────────
 			function handleFile(e) {
 				const file = e.target.files[0];
 				if (!file) return;
@@ -937,7 +899,6 @@
 				document.getElementById('btn-scan').style.display = 'none';
 			}
 
-			// ─── Drag & drop ──────────────────────────────────────────────────────────────
 			const uploadArea = document.getElementById('upload-area');
 			uploadArea.addEventListener('dragover', (e) => {
 				e.preventDefault();
@@ -958,7 +919,6 @@
 				}
 			});
 
-			// ─── OCR ──────────────────────────────────────────────────────────────────────
 			async function scanReceipt() {
 				if (!state.selectedFile) return;
 				goStep(2);
@@ -970,12 +930,9 @@
 					formData.append('OCREngine', '2');
 					formData.append('isTable', 'true');
 					formData.append('scale', 'true');
-
 					const res = await fetch('https://payhowmuch.commonertech.dev/api/scan-receipt', { method: 'POST', body: formData });
 					const data = await res.json();
-
 					if (data.IsErroredOnProcessing) throw new Error('OCR failed');
-
 					const lines = (data.ParsedResults?.[0]?.Overlay?.Lines || []).map((l) => ({
 						text: l.LineText?.trim() || '',
 						left: l.Words?.[0]?.Left || 0,
@@ -983,7 +940,6 @@
 					}));
 					const fullText = data.ParsedResults?.[0]?.ParsedText || '';
 					const parsed = parseFromOverlay(lines, fullText);
-
 					if (parsed.items.length === 0) {
 						goStep(1);
 						document.getElementById('ocr-error').textContent =
@@ -991,7 +947,6 @@
 						document.getElementById('ocr-error').classList.add('show');
 						return;
 					}
-
 					state.items = parsed.items.map((i) => ({ ...i, unitPrice: i.price, qty: 1, pax: 0 }));
 					document.getElementById('gst-input').value = parsed.gst;
 					document.getElementById('sc-input').value = parsed.sc;
@@ -1022,19 +977,15 @@
 					fullText.match(/(\d+(?:\.\d+)?)\s*%?\s*service/i) || fullText.match(/service\s*charge\s*\(?(\d+(?:\.\d+)?)\s*%?\)?/i);
 				if (gstMatch) gst = parseFloat(gstMatch[1]);
 				if (scMatch) sc = parseFloat(scMatch[1]);
-
 				const skip =
 					/sub.?total|grand.?total|total|gst|service|s\/c|svc|charge|tax|rounding|visa|cash|receipt|table|counter|date|tel|thank|master|pos|reg|no\.|qty|amount|amt|description|price|http|see you|dine|payment|payable|change|check|closed|company|supervisor|chk|tbl|fax|visit|signature|please|again|card|terminal|uob|printing/i;
-
 				const priceOnlyLines = lines.filter((l) => /^\$?\d+\.\d{2}$/.test(l.text));
 				if (priceOnlyLines.length === 0) return parseFromText(fullText, gst, sc);
-
 				const priceColLeft = Math.min(...priceOnlyLines.map((l) => l.left));
 				const sorted = [...lines].sort((a, b) => a.top - b.top);
 				const rows = [];
 				let currentRow = [],
 					lastTop = -999;
-
 				for (const line of sorted) {
 					if (line.top - lastTop > 15) {
 						if (currentRow.length > 0) rows.push(currentRow);
@@ -1043,11 +994,9 @@
 					lastTop = line.top;
 				}
 				if (currentRow.length > 0) rows.push(currentRow);
-
-				const items = [];
-				const seen = new Set();
+				const items = [],
+					seen = new Set();
 				let pendingName = null;
-
 				for (const row of rows) {
 					const nameParts = row.filter((l) => l.left < priceColLeft - 20 && !/^\$?\d+[\.,]\d{2}$/.test(l.text));
 					const priceParts = row.filter((l) => l.left >= priceColLeft - 20 && /\$?\d+[\.,]\d{2}/.test(l.text));
@@ -1058,7 +1007,6 @@
 					const cleanName = nameText.replace(/^\d+\s+/, '').trim();
 					const priceText = priceParts[priceParts.length - 1]?.text || '';
 					const priceNum = parseFloat(priceText.replace('$', '').replace(',', '.'));
-
 					if (nameText && skip.test(nameText)) {
 						pendingName = null;
 						continue;
@@ -1081,7 +1029,6 @@
 						pendingName = null;
 					} else pendingName = null;
 				}
-
 				const bad = items.filter((i) => /^\$|×|\t|^#$|^\d/.test(i.name));
 				if (bad.length > items.length * 0.4) return parseFromText(fullText, gst, sc);
 				return { items, gst, sc };
@@ -1128,9 +1075,6 @@
 				return { items, gst, sc };
 			}
 
-			// ─── Manual entry ─────────────────────────────────────────────────────────────
-			let manualItems = [];
-
 			function addManualItem() {
 				const id = Date.now();
 				manualItems.push({ id, name: '', price: '' });
@@ -1140,7 +1084,6 @@
 					inputs[inputs.length - 1]?.focus();
 				}, 50);
 			}
-
 			function renderManualItems() {
 				const list = document.getElementById('manual-items-list');
 				list.innerHTML = manualItems
@@ -1149,30 +1092,24 @@
     <div class="manual-item-row" data-id="${item.id}">
       <input type="text" placeholder="Item name" value="${item.name}" oninput="updateManualItem(${item.id}, 'name', this.value)" onkeydown="handleManualKey(event, ${i})">
       <input type="number" placeholder="0.00" value="${item.price}" min="0" step="0.10" oninput="updateManualItem(${item.id}, 'price', this.value)" onkeydown="handleManualKey(event, ${i})">
-      <button class="btn btn-icon" onclick="removeManualItem(${item.id})">✕</button>
+      <button class="btn-icon-remove" onclick="removeManualItem(${item.id})">✕</button>
     </div>
   `,
 					)
 					.join('');
 				document.getElementById('btn-manual-next').style.display = manualItems.length > 0 ? 'flex' : 'none';
 			}
-
 			function updateManualItem(id, field, value) {
 				const item = manualItems.find((i) => i.id === id);
 				if (item) item[field] = value;
 			}
-
 			function removeManualItem(id) {
 				manualItems = manualItems.filter((i) => i.id !== id);
 				renderManualItems();
 			}
-
 			function handleManualKey(e, index) {
-				if (e.key === 'Enter') {
-					if (index === manualItems.length - 1) addManualItem();
-				}
+				if (e.key === 'Enter' && index === manualItems.length - 1) addManualItem();
 			}
-
 			function finishManual() {
 				const valid = manualItems.filter((i) => i.name.trim() && parseFloat(i.price) > 0);
 				if (valid.length === 0) {
@@ -1186,9 +1123,7 @@
 				goStep(3);
 			}
 
-			// ─── Step 3: Review items ─────────────────────────────────────────────────────
 			let editingIndex = null;
-
 			function renderReviewItems() {
 				const list = document.getElementById('review-items-list');
 				list.innerHTML = state.items
@@ -1201,20 +1136,18 @@
           <div class="item-price">${item.qty > 1 ? item.qty + '×$' + item.unitPrice.toFixed(2) + ' = ' : ''}$${item.price.toFixed(2)}</div>
         </div>
         <div class="item-actions">
-          <button class="btn btn-icon" onclick="event.stopPropagation(); removeItem(${i})" title="Remove">✕</button>
+          <button class="btn-icon-remove" onclick="event.stopPropagation(); removeItem(${i})" title="Remove">✕</button>
         </div>
       </div>
       <div class="item-edit-panel" id="edit-panel-${i}">
         <div class="edit-row">
           <div class="edit-field">
             <label>Unit price ($)</label>
-            <input type="number" value="${item.unitPrice.toFixed(2)}" min="0" step="0.10"
-              oninput="updateItemPrice(${i}, this.value)">
+            <input type="number" value="${item.unitPrice.toFixed(2)}" min="0" step="0.10" oninput="updateItemPrice(${i}, this.value)">
           </div>
           <div class="edit-field">
             <label>Quantity</label>
-            <input type="number" value="${item.qty}" min="1" step="1"
-              oninput="updateItemQty(${i}, this.value)">
+            <input type="number" value="${item.qty}" min="1" step="1" oninput="updateItemQty(${i}, this.value)">
           </div>
         </div>
         <div class="edit-field">
@@ -1226,18 +1159,15 @@
   `,
 					)
 					.join('');
-
 				document.getElementById('gst-input').value = state.gst;
 				document.getElementById('sc-input').value = state.sc;
 			}
-
 			function toggleEditItem(i) {
 				const panel = document.getElementById('edit-panel-' + i);
 				const isOpen = panel.classList.contains('open');
 				document.querySelectorAll('.item-edit-panel').forEach((p) => p.classList.remove('open'));
 				if (!isOpen) panel.classList.add('open');
 			}
-
 			function updateItemPrice(i, val) {
 				const price = parseFloat(val);
 				if (!isNaN(price) && price > 0) {
@@ -1249,7 +1179,6 @@
 							: `$${state.items[i].price.toFixed(2)}`;
 				}
 			}
-
 			function updateItemQty(i, val) {
 				const qty = parseFloat(val);
 				if (!isNaN(qty) && qty > 0) {
@@ -1261,25 +1190,30 @@
 							: `$${state.items[i].price.toFixed(2)}`;
 				}
 			}
-
 			function updateItemName(i, val) {
 				state.items[i].name = val;
 				document.querySelector(`#item-row-${i} .item-name`).textContent = val;
 			}
-
 			function removeItem(i) {
+				lastRemoved = { item: { ...state.items[i] }, index: i };
 				state.items.splice(i, 1);
 				renderReviewItems();
+				showToastWithUndo(`Removed "${lastRemoved.item.name}"`);
 			}
-
+			function undoRemove() {
+				if (!lastRemoved) return;
+				state.items.splice(lastRemoved.index, 0, lastRemoved.item);
+				lastRemoved = null;
+				clearTimeout(undoTimer);
+				hideToast();
+				renderReviewItems();
+			}
 			function addReviewItem() {
-				const price = 0;
-				state.items.push({ name: 'New item', price, unitPrice: price, qty: 1, pax: 0 });
+				state.items.push({ name: 'New item', price: 0, unitPrice: 0, qty: 1, pax: 0 });
 				renderReviewItems();
 				const panels = document.querySelectorAll('.item-edit-panel');
 				panels[panels.length - 1]?.classList.add('open');
 			}
-
 			document.getElementById('gst-input').addEventListener('input', function () {
 				state.gst = parseFloat(this.value) || 0;
 			});
@@ -1287,49 +1221,37 @@
 				state.sc = parseFloat(this.value) || 0;
 			});
 
-			// ─── Step 4: Uneven splits ────────────────────────────────────────────────────
 			function renderUnevenItems() {
 				const list = document.getElementById('uneven-items-list');
 				list.innerHTML = state.items
 					.map((item, i) => {
 						const dots = Array.from({ length: Math.min(state.groupSize, 8) }, (_, n) => {
 							const pax = n + 1;
-							const active = item.pax === pax ? 'active' : '';
-							return `<button class="pax-dot ${active}" onclick="setPax(${i}, ${pax})">${pax}</button>`;
+							return `<button class="pax-dot ${item.pax === pax ? 'active' : ''}" onclick="setPax(${i}, ${pax})">${pax}</button>`;
 						}).join('');
-						const selected = item.pax > 0;
 						return `
-      <div class="uneven-item ${selected ? 'selected' : ''}" id="uneven-row-${i}">
+      <div class="uneven-item" id="uneven-row-${i}">
         <div>
           <div class="item-name">${escHtml(item.name)}</div>
           <div class="item-price" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px">$${item.price.toFixed(2)}</div>
         </div>
         <div class="uneven-pax-select">${dots}</div>
-      </div>
-    `;
+      </div>`;
 					})
 					.join('');
 			}
-
 			function setPax(itemIndex, pax) {
-				if (state.items[itemIndex].pax === pax) {
-					state.items[itemIndex].pax = 0;
-				} else {
-					state.items[itemIndex].pax = pax;
-				}
+				state.items[itemIndex].pax = state.items[itemIndex].pax === pax ? 0 : pax;
 				renderUnevenItems();
 			}
 
-			// ─── Step 5: Result ───────────────────────────────────────────────────────────
 			function calculateResult() {
 				const gst = parseFloat(document.getElementById('gst-input').value) || 0;
 				const sc = parseFloat(document.getElementById('sc-input').value) || 0;
 				state.gst = gst;
 				state.sc = sc;
-
 				const scMult = 1 + sc / 100;
 				const gstMult = 1 + gst / 100;
-
 				const groups = new Map();
 				for (const item of state.items) {
 					const effectivePax = item.pax === 0 ? state.groupSize : item.pax;
@@ -1338,56 +1260,30 @@
 					g.items.push(item);
 					g.total += item.price;
 				}
-
 				const grandTotal = state.items.reduce((s, i) => s + i.price, 0) * scMult * gstMult;
-
-				let html = `<div class="result-card">
-    <div class="result-header">
-      <div class="result-header-label">Grand total</div>
-      <div class="result-total">$${grandTotal.toFixed(2)}</div>
-    </div>`;
-
+				let html = `<div class="result-card"><div class="result-header"><div class="result-header-label">Grand total</div><div class="result-total">$${grandTotal.toFixed(2)}</div></div>`;
 				if (sc > 0 || gst > 0) {
-					html += `<div class="result-group" style="padding:10px 16px;background:var(--surface2)">
-      <div style="display:flex;gap:16px;font-size:12px;color:var(--muted);font-family:var(--mono)">
-        ${sc > 0 ? `<span>SVC ${sc}%</span>` : ''}
-        ${gst > 0 ? `<span>GST ${gst}%</span>` : ''}
-      </div>
-    </div>`;
+					html += `<div class="result-group" style="padding:10px 16px;background:var(--surface2)"><div style="display:flex;gap:16px;font-size:12px;color:var(--muted);font-family:var(--mono)">${sc > 0 ? `<span>SVC ${sc}%</span>` : ''}${gst > 0 ? `<span>GST ${gst}%</span>` : ''}</div></div>`;
 				}
-
 				for (const [pax, group] of groups) {
-					const totalWithCharges = group.total * scMult * gstMult;
-					const perPerson = totalWithCharges / pax;
+					const perPerson = (group.total * scMult * gstMult) / pax;
 					const itemsHtml = group.items
 						.map(
-							(i) => `
-      <div class="result-item">
-        <span>${escHtml(i.name)}</span>
-        <span class="result-item-price">$${i.price.toFixed(2)}</span>
-      </div>
-    `,
+							(i) =>
+								`<div class="result-item"><span>${escHtml(i.name)}</span><span class="result-item-price">$${i.price.toFixed(2)}</span></div>`,
 						)
 						.join('');
-					html += `
-      <div class="result-group">
-        <div class="result-group-header">
-          <div class="result-group-label">${pax === state.groupSize ? 'Everyone' : pax + ' people'}</div>
-          <div class="result-per-person">$${perPerson.toFixed(2)} <span style="font-size:13px;color:var(--muted)">each</span></div>
-        </div>
-        <div class="result-items">${itemsHtml}</div>
-      </div>`;
+					html += `<div class="result-group"><div class="result-group-header"><div class="result-group-label">${pax === state.groupSize ? 'Everyone' : pax + ' people'}</div><div class="result-per-person">$${perPerson.toFixed(2)} <span style="font-size:13px;color:var(--muted)">each</span></div></div><div class="result-items">${itemsHtml}</div></div>`;
 				}
-
 				html += '</div>';
 				document.getElementById('result-container').innerHTML = html;
 				goStep(5);
 			}
 
-			// ─── Reset ────────────────────────────────────────────────────────────────────
 			function resetAll() {
 				state = { groupSize: 0, items: [], gst: 9, sc: 10, selectedFile: null };
 				manualItems = [];
+				lastRemoved = null;
 				clearFile();
 				renderManualItems();
 				document.querySelectorAll('.pax-btn').forEach((b) => b.classList.remove('active'));
@@ -1396,12 +1292,27 @@
 				goStep(0);
 			}
 
-			// ─── Utils ────────────────────────────────────────────────────────────────────
 			function showToast(msg) {
+				document.getElementById('toast-msg').textContent = msg;
+				document.getElementById('toast-undo-btn').style.display = 'none';
 				const t = document.getElementById('toast');
-				t.textContent = msg;
 				t.classList.add('show');
-				setTimeout(() => t.classList.remove('show'), 2000);
+				clearTimeout(undoTimer);
+				undoTimer = setTimeout(() => hideToast(), 2000);
+			}
+			function showToastWithUndo(msg) {
+				document.getElementById('toast-msg').textContent = msg;
+				document.getElementById('toast-undo-btn').style.display = 'inline';
+				const t = document.getElementById('toast');
+				t.classList.add('show');
+				clearTimeout(undoTimer);
+				undoTimer = setTimeout(() => {
+					lastRemoved = null;
+					hideToast();
+				}, 4000);
+			}
+			function hideToast() {
+				document.getElementById('toast').classList.remove('show');
 			}
 			function escHtml(str) {
 				return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
