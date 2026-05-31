@@ -7,10 +7,16 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<meta name="theme-color" content="#0e0e0f" media="(prefers-color-scheme: dark)" />
 		<meta name="theme-color" content="#f5f4f0" media="(prefers-color-scheme: light)" />
-		<meta name="description" content="Split restaurant bills instantly — scan a receipt, fix OCR errors, and split unevenly across your group." />
-		<meta name="og:title" content="Split — PayHowMuch" />
-		<meta name="og:description" content="Split restaurant bills instantly — scan a receipt, fix OCR errors, and split unevenly across your group." />
-		<meta name="og:url" content="https://split.commonertech.dev" />
+		<meta
+			name="description"
+			content="Split restaurant bills instantly — scan a receipt, fix OCR errors, and split unevenly across your group."
+		/>
+		<meta property="og:title" content="Split — PayHowMuch" />
+		<meta
+			property="og:description"
+			content="Split restaurant bills instantly — scan a receipt, fix OCR errors, and split unevenly across your group."
+		/>
+		<meta property="og:url" content="https://split.commonertech.dev" />
 		<title>Split — payhowmuch</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link
@@ -936,7 +942,13 @@
 					formData.append('scale', 'true');
 					const res = await fetch('https://payhowmuch.commonertech.dev/api/scan-receipt', { method: 'POST', body: formData });
 					const data = await res.json();
-					if (data.IsErroredOnProcessing) throw new Error('OCR failed');
+					if (data.IsErroredOnProcessing) {
+						const errMsg = data.ErrorMessage?.[0] || '';
+						if (errMsg.toLowerCase().includes('limit') || errMsg.toLowerCase().includes('quota')) {
+							throw new Error('limit');
+						}
+						throw new Error('OCR failed');
+					}
 					const lines = (data.ParsedResults?.[0]?.Overlay?.Lines || []).map((l) => ({
 						text: l.LineText?.trim() || '',
 						left: l.Words?.[0]?.Left || 0,
@@ -959,7 +971,10 @@
 					goStep(3);
 				} catch (e) {
 					goStep(1);
-					document.getElementById('ocr-error').textContent = 'Something went wrong. Please try again or enter items manually.';
+					const isLimit = e.message === 'limit';
+					document.getElementById('ocr-error').textContent = isLimit
+						? '⏳ Daily scan limit reached. Please try again tomorrow, or enter items manually below.'
+						: 'Something went wrong. Please try again or enter items manually.';
 					document.getElementById('ocr-error').classList.add('show');
 				}
 			}
