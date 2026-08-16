@@ -20,12 +20,13 @@ Split recurring subscriptions (Netflix, Spotify, Disney+) with friends and never
 
 ### 2. Bill Splitter
 
-Scan a restaurant receipt or enter items manually, fix any OCR errors, mark items shared unevenly, and get an instant per-person breakdown with GST and service charge applied.
+Scan a restaurant receipt or enter items manually, fix any OCR errors, assign items to specific people or split by count, and get an instant per-person breakdown with GST and service charge applied.
 
 **Commands**
 
 - `/split` — start a new bill split
-  **Web app**: [split.commonertech.dev](https://split.commonertech.dev)
+
+**Web app**: [split.commonertech.dev](https://split.commonertech.dev)
 
 ---
 
@@ -36,6 +37,6 @@ TypeScript · Cloudflare Workers · Cloudflare D1 · Cloudflare Pages · Telegra
 ## Promotional Images
 
 ![Screenshot 1](assets/1.png)
-![Screenshot 1](assets/2.png)
-![Screenshot 1](assets/3.png)
-![Screenshot 1](assets/4.png)
+![Screenshot 2](assets/2.png)
+![Screenshot 3](assets/3.png)
+![Screenshot 4](assets/4.png)
