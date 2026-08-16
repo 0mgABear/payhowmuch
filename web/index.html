@@ -35,8 +35,6 @@
 				--accent-dim: rgba(232, 255, 107, 0.12);
 				--red: #ff5c5c;
 				--red-dim: rgba(255, 92, 92, 0.12);
-				--green: #4dffb0;
-				--green-dim: rgba(77, 255, 176, 0.1);
 				--radius: 12px;
 				--mono: 'DM Mono', monospace;
 				--sans: 'DM Sans', sans-serif;
@@ -53,8 +51,6 @@
 					--accent-dim: rgba(0, 0, 0, 0.06);
 					--red: #d93636;
 					--red-dim: rgba(217, 54, 54, 0.08);
-					--green: #0a7a4e;
-					--green-dim: rgba(10, 122, 78, 0.08);
 				}
 			}
 			*,
@@ -314,6 +310,11 @@
 				opacity: 0.85;
 				transform: scale(0.98);
 			}
+			.btn-primary:disabled {
+				opacity: 0.4;
+				cursor: not-allowed;
+				transform: none;
+			}
 			.btn-secondary {
 				background: var(--surface);
 				color: var(--text);
@@ -327,22 +328,6 @@
 				font-size: 13px;
 				width: auto;
 				border-radius: 8px;
-				min-height: 0;
-			}
-			.btn-danger {
-				background: var(--red-dim);
-				color: var(--red);
-				border: 1px solid var(--red);
-			}
-			.btn-icon {
-				background: var(--surface2);
-				border: 1px solid var(--border);
-				color: var(--muted);
-				padding: 9px;
-				width: 36px;
-				height: 36px;
-				border-radius: 8px;
-				flex-shrink: 0;
 				min-height: 0;
 			}
 			.btn-icon-remove {
@@ -409,10 +394,6 @@
 				transition: border-color 0.15s;
 				cursor: pointer;
 				-webkit-tap-highlight-color: transparent;
-			}
-			.item-row.selected {
-				border-color: var(--accent);
-				background: var(--accent-dim);
 			}
 			.item-info {
 				flex: 1;
@@ -489,6 +470,108 @@
 					color: var(--text);
 				}
 			}
+
+			/* Uneven split */
+			.uneven-item {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				overflow: hidden;
+				transition: border-color 0.15s;
+			}
+			.uneven-item.complete {
+				border-color: rgba(232, 255, 107, 0.4);
+			}
+			.uneven-item-header {
+				padding: 12px 14px;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 10px;
+			}
+			.uneven-item-info {
+				flex: 1;
+				min-width: 0;
+			}
+			.uneven-pax-dots {
+				display: flex;
+				gap: 4px;
+				flex-wrap: wrap;
+				justify-content: flex-end;
+			}
+			.pax-dot {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				border: 1.5px solid var(--border);
+				background: none;
+				color: var(--muted);
+				font-size: 12px;
+				font-family: var(--mono);
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.12s;
+				-webkit-tap-highlight-color: transparent;
+				touch-action: manipulation;
+			}
+			.pax-dot.active {
+				border-color: var(--accent);
+				background: var(--accent-dim);
+				color: var(--accent);
+			}
+			.person-picker {
+				border-top: 1px solid var(--border);
+				padding: 10px 14px;
+				background: var(--surface2);
+				display: none;
+				flex-direction: column;
+				gap: 8px;
+			}
+			.person-picker.show {
+				display: flex;
+			}
+			.person-picker-label {
+				font-size: 11px;
+				color: var(--muted);
+				text-transform: uppercase;
+				letter-spacing: 0.06em;
+			}
+			.person-btns {
+				display: flex;
+				gap: 6px;
+				flex-wrap: wrap;
+			}
+			.person-btn {
+				background: var(--surface);
+				border: 1.5px solid var(--border);
+				color: var(--muted);
+				font-family: var(--mono);
+				font-size: 13px;
+				padding: 6px 12px;
+				border-radius: 8px;
+				cursor: pointer;
+				transition: all 0.12s;
+				-webkit-tap-highlight-color: transparent;
+				touch-action: manipulation;
+			}
+			.person-btn.active {
+				border-color: var(--accent);
+				background: var(--accent-dim);
+				color: var(--accent);
+			}
+			.uneven-status {
+				font-size: 11px;
+				font-family: var(--mono);
+				color: var(--muted);
+				margin-top: 2px;
+			}
+			.uneven-status.done {
+				color: var(--accent);
+			}
+
+			/* Result */
 			.result-card {
 				background: var(--surface);
 				border: 1px solid var(--border);
@@ -529,9 +612,10 @@
 				margin-bottom: 8px;
 			}
 			.result-group-label {
-				font-size: 12px;
+				font-size: 13px;
 				color: var(--muted);
 				font-family: var(--mono);
+				font-weight: 500;
 			}
 			.result-per-person {
 				font-family: var(--mono);
@@ -585,42 +669,6 @@
 			.pax-custom input {
 				max-width: 80px;
 				font-family: var(--mono);
-			}
-			.uneven-item {
-				background: var(--surface);
-				border: 1px solid var(--border);
-				border-radius: var(--radius);
-				padding: 12px 14px;
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				gap: 10px;
-			}
-			.uneven-pax-select {
-				display: flex;
-				gap: 4px;
-				flex-wrap: wrap;
-			}
-			.pax-dot {
-				width: 28px;
-				height: 28px;
-				border-radius: 50%;
-				border: 1.5px solid var(--border);
-				background: none;
-				color: var(--muted);
-				font-size: 12px;
-				font-family: var(--mono);
-				cursor: pointer;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				transition: all 0.12s;
-				-webkit-tap-highlight-color: transparent;
-			}
-			.pax-dot.active {
-				border-color: var(--accent);
-				background: var(--accent-dim);
-				color: var(--accent);
 			}
 			.toast {
 				position: fixed;
@@ -710,6 +758,18 @@
 			.error-msg.show {
 				display: block;
 			}
+			.validation-msg {
+				background: var(--red-dim);
+				border: 1px solid var(--red);
+				border-radius: var(--radius);
+				padding: 10px 14px;
+				font-size: 13px;
+				color: var(--red);
+				display: none;
+			}
+			.validation-msg.show {
+				display: block;
+			}
 		</style>
 	</head>
 	<body>
@@ -718,11 +778,11 @@
 		</header>
 
 		<div class="progress" id="progress">
-			<div class="progress-dot active" id="dot-0"></div>
-			<div class="progress-dot" id="dot-1"></div>
-			<div class="progress-dot" id="dot-2"></div>
-			<div class="progress-dot" id="dot-3"></div>
-			<div class="progress-dot" id="dot-4"></div>
+			<div class="progress-dot active"></div>
+			<div class="progress-dot"></div>
+			<div class="progress-dot"></div>
+			<div class="progress-dot"></div>
+			<div class="progress-dot"></div>
 		</div>
 
 		<main>
@@ -731,7 +791,7 @@
 				<div>
 					<div class="step-label">Step 1 of 5</div>
 					<h1>How many people?</h1>
-					<p class="sub" style="margin-top: 6px">Including yourself.</p>
+					<p class="sub" style="margin-top: 6px">Including yourself. Max 10.</p>
 				</div>
 				<div class="pax-input-row" id="pax-btns">
 					<button class="pax-btn" onclick="selectPax(2)">2</button>
@@ -739,10 +799,10 @@
 					<button class="pax-btn" onclick="selectPax(4)">4</button>
 					<button class="pax-btn" onclick="selectPax(5)">5</button>
 					<button class="pax-btn" onclick="selectPax(6)">6</button>
-				</div>
-				<div class="pax-custom">
-					<input type="number" id="pax-custom-input" min="2" max="50" placeholder="Other" style="max-width: 120px" />
-					<button class="btn btn-secondary btn-sm" onclick="selectPaxCustom()">Use</button>
+					<button class="pax-btn" onclick="selectPax(7)">7</button>
+					<button class="pax-btn" onclick="selectPax(8)">8</button>
+					<button class="pax-btn" onclick="selectPax(9)">9</button>
+					<button class="pax-btn" onclick="selectPax(10)">10</button>
 				</div>
 				<button class="btn btn-primary" onclick="goStep(1)" id="btn-pax-next" disabled>Next →</button>
 			</div>
@@ -814,10 +874,13 @@
 				<div>
 					<button class="nav-back" onclick="goStep(3)">← Back</button>
 					<h1 style="margin-top: 12px">Uneven splits</h1>
-					<p class="sub" style="margin-top: 4px">Tap items <em>not</em> shared equally. Select how many people share each.</p>
+					<p class="sub" style="margin-top: 4px">
+						Select how many people share each item. If less than the full group, assign which people.
+					</p>
 				</div>
 				<div class="items-list" id="uneven-items-list"></div>
-				<button class="btn btn-primary" onclick="calculateResult()">Calculate →</button>
+				<div class="validation-msg" id="uneven-validation">⚠️ Please assign all items before calculating.</div>
+				<button class="btn btn-primary" id="btn-calculate" onclick="calculateResult()">Calculate →</button>
 			</div>
 
 			<!-- Step 5: Result -->
@@ -837,6 +900,8 @@
 		</div>
 
 		<script>
+			const PERSON_LABELS = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+
 			let state = { groupSize: 0, items: [], gst: 9, sc: 10, selectedFile: null };
 			let manualItems = [];
 			let lastRemoved = null;
@@ -860,28 +925,8 @@
 				state.groupSize = n;
 				document.querySelectorAll('.pax-btn').forEach((b) => b.classList.remove('active'));
 				event.target.classList.add('active');
-				document.getElementById('pax-custom-input').value = '';
 				document.getElementById('btn-pax-next').disabled = false;
 			}
-			function selectPaxCustom() {
-				const v = parseInt(document.getElementById('pax-custom-input').value);
-				if (isNaN(v) || v < 2) {
-					showToast('Enter at least 2');
-					return;
-				}
-				state.groupSize = v;
-				document.querySelectorAll('.pax-btn').forEach((b) => b.classList.remove('active'));
-				document.getElementById('btn-pax-next').disabled = false;
-				showToast('Group of ' + v);
-			}
-			document.getElementById('pax-custom-input').addEventListener('input', function () {
-				const v = parseInt(this.value);
-				if (!isNaN(v) && v >= 2) {
-					state.groupSize = v;
-					document.querySelectorAll('.pax-btn').forEach((b) => b.classList.remove('active'));
-					document.getElementById('btn-pax-next').disabled = false;
-				}
-			});
 
 			function switchTab(tab) {
 				document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
@@ -944,9 +989,7 @@
 					const data = await res.json();
 					if (data.IsErroredOnProcessing) {
 						const errMsg = data.ErrorMessage?.[0] || '';
-						if (errMsg.toLowerCase().includes('limit') || errMsg.toLowerCase().includes('quota')) {
-							throw new Error('limit');
-						}
+						if (errMsg.toLowerCase().includes('limit') || errMsg.toLowerCase().includes('quota')) throw new Error('limit');
 						throw new Error('OCR failed');
 					}
 					const lines = (data.ParsedResults?.[0]?.Overlay?.Lines || []).map((l) => ({
@@ -963,7 +1006,7 @@
 						document.getElementById('ocr-error').classList.add('show');
 						return;
 					}
-					state.items = parsed.items.map((i) => ({ ...i, unitPrice: i.price, qty: 1, pax: 0 }));
+					state.items = parsed.items.map((i) => ({ ...i, unitPrice: i.price, qty: 1, pax: 0, assignedTo: [] }));
 					document.getElementById('gst-input').value = parsed.gst;
 					document.getElementById('sc-input').value = parsed.sc;
 					state.gst = parsed.gst;
@@ -1137,12 +1180,11 @@
 				}
 				state.items = valid.map((i) => {
 					const price = parseFloat(i.price);
-					return { name: i.name.trim(), price, unitPrice: price, qty: 1, pax: 0 };
+					return { name: i.name.trim(), price, unitPrice: price, qty: 1, pax: 0, assignedTo: [] };
 				});
 				goStep(3);
 			}
 
-			let editingIndex = null;
 			function renderReviewItems() {
 				const list = document.getElementById('review-items-list');
 				list.innerHTML = state.items
@@ -1228,7 +1270,7 @@
 				renderReviewItems();
 			}
 			function addReviewItem() {
-				state.items.push({ name: 'New item', price: 0, unitPrice: 0, qty: 1, pax: 0 });
+				state.items.push({ name: 'New item', price: 0, unitPrice: 0, qty: 1, pax: 0, assignedTo: [] });
 				renderReviewItems();
 				const panels = document.querySelectorAll('.item-edit-panel');
 				panels[panels.length - 1]?.classList.add('open');
@@ -1240,60 +1282,154 @@
 				state.sc = parseFloat(this.value) || 0;
 			});
 
+			// ─── Uneven splits ────────────────────────────────────────────────────────────
+
 			function renderUnevenItems() {
 				const list = document.getElementById('uneven-items-list');
 				list.innerHTML = state.items
 					.map((item, i) => {
-						const dots = Array.from({ length: Math.min(state.groupSize, 8) }, (_, n) => {
+						const isComplete = item.pax > 0;
+						const needsPicker = item.pax > 0 && item.pax < state.groupSize;
+						const assignedLabels = item.assignedTo.map((p) => 'Person ' + PERSON_LABELS[p]).join(', ');
+						const statusText = !isComplete
+							? 'Select how many people share this'
+							: item.pax === state.groupSize
+								? 'Everyone'
+								: item.assignedTo.length > 0
+									? assignedLabels
+									: item.pax + ' people (unassigned)';
+						const statusClass = isComplete && (item.pax === state.groupSize || item.assignedTo.length === item.pax) ? 'done' : '';
+
+						// pax dots: 1 to groupSize
+						const dots = Array.from({ length: state.groupSize }, (_, n) => {
 							const pax = n + 1;
-							return `<button class="pax-dot ${item.pax === pax ? 'active' : ''}" onclick="setPax(${i}, ${pax})">${pax}</button>`;
+							return `<button class="pax-dot ${item.pax === pax ? 'active' : ''}" onclick="setItemPax(${i}, ${pax})">${pax}</button>`;
 						}).join('');
+
+						// person picker: show when pax < groupSize and pax > 0
+						const personBtns = Array.from({ length: state.groupSize }, (_, n) => {
+							const isSelected = item.assignedTo.includes(n);
+							return `<button class="person-btn ${isSelected ? 'active' : ''}" onclick="togglePerson(${i}, ${n})">Person ${PERSON_LABELS[n]}</button>`;
+						}).join('');
+
 						return `
-      <div class="uneven-item" id="uneven-row-${i}">
-        <div>
-          <div class="item-name">${escHtml(item.name)}</div>
-          <div class="item-price" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px">$${item.price.toFixed(2)}</div>
+      <div class="uneven-item ${isComplete && (item.pax === state.groupSize || item.assignedTo.length === item.pax) ? 'complete' : ''}" id="uneven-item-${i}">
+        <div class="uneven-item-header">
+          <div class="uneven-item-info">
+            <div class="item-name">${escHtml(item.name)}</div>
+            <div class="item-price" style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:2px">$${item.price.toFixed(2)}</div>
+            <div class="uneven-status ${statusClass}">${statusText}</div>
+          </div>
+          <div class="uneven-pax-dots">${dots}</div>
         </div>
-        <div class="uneven-pax-select">${dots}</div>
+        <div class="person-picker ${needsPicker ? 'show' : ''}" id="picker-${i}">
+          <div class="person-picker-label">Who shares this? (select ${item.pax})</div>
+          <div class="person-btns">${personBtns}</div>
+        </div>
       </div>`;
 					})
 					.join('');
 			}
-			function setPax(itemIndex, pax) {
-				state.items[itemIndex].pax = state.items[itemIndex].pax === pax ? 0 : pax;
+
+			function setItemPax(i, pax) {
+				state.items[i].pax = pax;
+				state.items[i].assignedTo = []; // reset assignment when pax changes
 				renderUnevenItems();
 			}
 
+			function togglePerson(i, personIndex) {
+				const item = state.items[i];
+				const already = item.assignedTo.includes(personIndex);
+				if (already) {
+					item.assignedTo = item.assignedTo.filter((p) => p !== personIndex);
+				} else {
+					if (item.assignedTo.length >= item.pax) {
+						showToast(`Only ${item.pax} ${item.pax === 1 ? 'person' : 'people'} can share this`);
+						return;
+					}
+					item.assignedTo = [...item.assignedTo, personIndex];
+				}
+				renderUnevenItems();
+			}
+
+			function allItemsAssigned() {
+				return state.items.every((item) => {
+					if (item.pax === 0) return false;
+					if (item.pax === state.groupSize) return true;
+					return item.assignedTo.length === item.pax;
+				});
+			}
+
 			function calculateResult() {
+				if (!allItemsAssigned()) {
+					document.getElementById('uneven-validation').classList.add('show');
+					return;
+				}
+				document.getElementById('uneven-validation').classList.remove('show');
+
 				const gst = parseFloat(document.getElementById('gst-input').value) || 0;
 				const sc = parseFloat(document.getElementById('sc-input').value) || 0;
 				state.gst = gst;
 				state.sc = sc;
 				const scMult = 1 + sc / 100;
 				const gstMult = 1 + gst / 100;
-				const groups = new Map();
+
+				// Calculate per-person totals
+				const personTotals = new Array(state.groupSize).fill(0);
+				const personItems = Array.from({ length: state.groupSize }, () => []);
+
 				for (const item of state.items) {
-					const effectivePax = item.pax === 0 ? state.groupSize : item.pax;
-					if (!groups.has(effectivePax)) groups.set(effectivePax, { items: [], total: 0 });
-					const g = groups.get(effectivePax);
-					g.items.push(item);
-					g.total += item.price;
+					if (item.pax === state.groupSize) {
+						// Split equally among everyone
+						const share = item.price / state.groupSize;
+						for (let p = 0; p < state.groupSize; p++) {
+							personTotals[p] += share;
+							personItems[p].push({ name: item.name, share });
+						}
+					} else {
+						// Split among assigned people
+						const share = item.price / item.pax;
+						for (const p of item.assignedTo) {
+							personTotals[p] += share;
+							personItems[p].push({ name: item.name, share });
+						}
+					}
 				}
+
 				const grandTotal = state.items.reduce((s, i) => s + i.price, 0) * scMult * gstMult;
-				let html = `<div class="result-card"><div class="result-header"><div class="result-header-label">Grand total</div><div class="result-total">$${grandTotal.toFixed(2)}</div></div>`;
+
+				let html = `<div class="result-card">
+    <div class="result-header">
+      <div class="result-header-label">Grand total</div>
+      <div class="result-total">$${grandTotal.toFixed(2)}</div>
+    </div>`;
+
 				if (sc > 0 || gst > 0) {
-					html += `<div class="result-group" style="padding:10px 16px;background:var(--surface2)"><div style="display:flex;gap:16px;font-size:12px;color:var(--muted);font-family:var(--mono)">${sc > 0 ? `<span>SVC ${sc}%</span>` : ''}${gst > 0 ? `<span>GST ${gst}%</span>` : ''}</div></div>`;
+					html += `<div class="result-group" style="padding:10px 16px;background:var(--surface2)">
+      <div style="display:flex;gap:16px;font-size:12px;color:var(--muted);font-family:var(--mono)">
+        ${sc > 0 ? `<span>SVC ${sc}%</span>` : ''}${gst > 0 ? `<span>GST ${gst}%</span>` : ''}
+      </div>
+    </div>`;
 				}
-				for (const [pax, group] of groups) {
-					const perPerson = (group.total * scMult * gstMult) / pax;
-					const itemsHtml = group.items
+
+				for (let p = 0; p < state.groupSize; p++) {
+					if (personItems[p].length === 0) continue;
+					const total = personTotals[p] * scMult * gstMult;
+					const itemsHtml = personItems[p]
 						.map(
-							(i) =>
-								`<div class="result-item"><span>${escHtml(i.name)}</span><span class="result-item-price">$${i.price.toFixed(2)}</span></div>`,
+							(it) =>
+								`<div class="result-item"><span>${escHtml(it.name)}</span><span class="result-item-price">$${it.share.toFixed(2)}</span></div>`,
 						)
 						.join('');
-					html += `<div class="result-group"><div class="result-group-header"><div class="result-group-label">${pax === state.groupSize ? 'Everyone' : pax + ' people'}</div><div class="result-per-person">$${perPerson.toFixed(2)} <span style="font-size:13px;color:var(--muted)">each</span></div></div><div class="result-items">${itemsHtml}</div></div>`;
+					html += `<div class="result-group">
+      <div class="result-group-header">
+        <div class="result-group-label">Person ${PERSON_LABELS[p]}</div>
+        <div class="result-per-person">$${total.toFixed(2)}</div>
+      </div>
+      <div class="result-items">${itemsHtml}</div>
+    </div>`;
 				}
+
 				html += '</div>';
 				document.getElementById('result-container').innerHTML = html;
 				goStep(5);
@@ -1307,7 +1443,6 @@
 				renderManualItems();
 				document.querySelectorAll('.pax-btn').forEach((b) => b.classList.remove('active'));
 				document.getElementById('btn-pax-next').disabled = true;
-				document.getElementById('pax-custom-input').value = '';
 				goStep(0);
 			}
 
