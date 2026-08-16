@@ -1290,7 +1290,7 @@
 					.map((item, i) => {
 						const isComplete = item.pax > 0;
 						const needsPicker = item.pax > 0 && item.pax < state.groupSize;
-						const assignedLabels = item.assignedTo.map((p) => 'Person ' + PERSON_LABELS[p]).join(', ');
+						const assignedLabels = item.assignedTo.map((p) => PERSON_LABELS[p]).join(', ');
 						const statusText = !isComplete
 							? 'Select how many people share this'
 							: item.pax === state.groupSize
@@ -1309,7 +1309,7 @@
 						// person picker: show when pax < groupSize and pax > 0
 						const personBtns = Array.from({ length: state.groupSize }, (_, n) => {
 							const isSelected = item.assignedTo.includes(n);
-							return `<button class="person-btn ${isSelected ? 'active' : ''}" onclick="togglePerson(${i}, ${n})">Person ${PERSON_LABELS[n]}</button>`;
+							return `<button class="person-btn ${isSelected ? 'active' : ''}" onclick="togglePerson(${i}, ${n})">${PERSON_LABELS[n]}</button>`;
 						}).join('');
 
 						return `
