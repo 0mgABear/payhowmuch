@@ -231,18 +231,57 @@ export async function handleReminderCallback(callbackQuery: any, env: Env): Prom
 	}
 }
 
+async function sendReminder(token: string, chatId: string, text: string): Promise<any> {
+	const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({ chat_id: chatId, text }),
+	});
+	return res.json();
+}
+
 export async function handleScheduled(env: Env): Promise<void> {
+	const db = env.payhowmuchbot_db;
+	const token = env.TELEGRAM_BOT_TOKEN;
 	const today = new Date().toISOString().split('T')[0];
-	const rows = await env.payhowmuchbot_db.prepare(`SELECT * FROM reminders WHERE next_remind_at <= ?`).bind(today).all();
+	const rows = await db.prepare(`SELECT * FROM reminders WHERE next_remind_at <= ?`).bind(today).all();
 
 	for (const row of rows.results as any[]) {
-		const perPerson = (row.amount / row.num_people).toFixed(2);
-		await sendMessage(
-			env.TELEGRAM_BOT_TOKEN,
-			row.chat_id,
-			`🔔 Time to pay for ${row.description}!\n💵 Each person pays: $${perPerson}\n👥 ${row.num_people} people splitting $${row.amount}`,
-		);
-		const next = nextRemindAt(row.interval, row.day);
-		await env.payhowmuchbot_db.prepare(`UPDATE reminders SET next_remind_at = ? WHERE chat_id = ?`).bind(next, row.chat_id).run();
+		try {
+			const perPerson = (row.amount / row.num_people).toFixed(2);
+			const text = `🔔 Time to pay for ${row.description}!\n💵 Each person pays: $${perPerson}\n👥 ${row.num_people} people splitting $${row.amount}`;
+			let chatId = String(row.chat_id);
+			let res = await sendReminder(token, chatId, text);
+
+			const migratedId = res.parameters?.migrate_to_chat_id;
+			if (!res.ok && migratedId) {
+				chatId = String(migratedId);
+				const existing = await db.prepare(`SELECT id FROM reminders WHERE chat_id = ?`).bind(chatId).first();
+				if (existing) {
+					console.log(`Reminder ${row.id}: chat migrated to ${chatId}, which already has a reminder. Deleting old row.`);
+					await db.prepare(`DELETE FROM reminders WHERE id = ?`).bind(row.id).run();
+					continue;
+				}
+				console.log(`Reminder ${row.id}: chat migrated to ${chatId}. Updating and retrying.`);
+				await db.prepare(`UPDATE reminders SET chat_id = ? WHERE id = ?`).bind(chatId, row.id).run();
+				res = await sendReminder(token, chatId, text);
+			}
+
+			if (!res.ok) {
+				const desc = res.description ?? 'unknown error';
+				if (res.error_code === 403 || /chat not found/i.test(desc)) {
+					console.log(`Reminder ${row.id}: chat ${chatId} unreachable (${desc}). Deleting.`);
+					await db.prepare(`DELETE FROM reminders WHERE id = ?`).bind(row.id).run();
+				} else {
+					console.log(`Reminder ${row.id}: send failed (${res.error_code} ${desc}). Will retry tomorrow.`);
+				}
+				continue;
+			}
+
+			const next = nextRemindAt(row.interval, row.day);
+			await db.prepare(`UPDATE reminders SET next_remind_at = ? WHERE id = ?`).bind(next, row.id).run();
+		} catch (e) {
+			console.log(`Reminder ${row.id}: error ${e}. Will retry tomorrow.`);
+		}
 	}
 }

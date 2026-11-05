@@ -40,6 +40,13 @@ async function handleUpdate(update: any, env: Env): Promise<void> {
 
 	const message = update.message;
 	if (!message) return;
+	if (message.migrate_to_chat_id) {
+		await env.payhowmuchbot_db
+			.prepare(`UPDATE reminders SET chat_id = ? WHERE chat_id = ?`)
+			.bind(String(message.migrate_to_chat_id), String(message.chat.id))
+			.run();
+		return;
+	}
 
 	const chatId = String(message.chat.id);
 	const userId = String(message.from.id);

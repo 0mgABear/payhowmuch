@@ -481,7 +481,6 @@ export async function handleSplitPhoto(photo: any[], chatId: string, userId: str
 	}
 	const imageUrl = `https://api.telegram.org/file/bot${token}/${filePath}`;
 	const { items, gst, sc } = await ocrReceipt(imageUrl, env.OCR_SPACE_API_KEY);
-	console.log('OCR items:', JSON.stringify(items), 'gst:', gst, 'sc:', sc);
 	await deleteMessage(token, chatId, readingMsgId);
 
 	const currentSession = await getSession(db, chatId, userId);

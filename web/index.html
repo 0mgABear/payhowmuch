@@ -471,7 +471,6 @@
 				}
 			}
 
-			/* Uneven split */
 			.uneven-item {
 				background: var(--surface);
 				border: 1px solid var(--border);
@@ -571,7 +570,6 @@
 				color: var(--accent);
 			}
 
-			/* Result */
 			.result-card {
 				background: var(--surface);
 				border: 1px solid var(--border);
@@ -1282,7 +1280,6 @@
 				state.sc = parseFloat(this.value) || 0;
 			});
 
-			// ─── Uneven splits ────────────────────────────────────────────────────────────
 
 			function renderUnevenItems() {
 				const list = document.getElementById('uneven-items-list');
@@ -1300,13 +1297,11 @@
 									: item.pax + ' people (unassigned)';
 						const statusClass = isComplete && (item.pax === state.groupSize || item.assignedTo.length === item.pax) ? 'done' : '';
 
-						// pax dots: 1 to groupSize
 						const dots = Array.from({ length: state.groupSize }, (_, n) => {
 							const pax = n + 1;
 							return `<button class="pax-dot ${item.pax === pax ? 'active' : ''}" onclick="setItemPax(${i}, ${pax})">${pax}</button>`;
 						}).join('');
 
-						// person picker: show when pax < groupSize and pax > 0
 						const personBtns = Array.from({ length: state.groupSize }, (_, n) => {
 							const isSelected = item.assignedTo.includes(n);
 							return `<button class="person-btn ${isSelected ? 'active' : ''}" onclick="togglePerson(${i}, ${n})">${PERSON_LABELS[n]}</button>`;
@@ -1333,7 +1328,7 @@
 
 			function setItemPax(i, pax) {
 				state.items[i].pax = pax;
-				state.items[i].assignedTo = []; // reset assignment when pax changes
+				state.items[i].assignedTo = [];
 				renderUnevenItems();
 			}
 
@@ -1374,20 +1369,17 @@
 				const scMult = 1 + sc / 100;
 				const gstMult = 1 + gst / 100;
 
-				// Calculate per-person totals
 				const personTotals = new Array(state.groupSize).fill(0);
 				const personItems = Array.from({ length: state.groupSize }, () => []);
 
 				for (const item of state.items) {
 					if (item.pax === state.groupSize) {
-						// Split equally among everyone
 						const share = item.price / state.groupSize;
 						for (let p = 0; p < state.groupSize; p++) {
 							personTotals[p] += share;
 							personItems[p].push({ name: item.name, share });
 						}
 					} else {
-						// Split among assigned people
 						const share = item.price / item.pax;
 						for (const p of item.assignedTo) {
 							personTotals[p] += share;
